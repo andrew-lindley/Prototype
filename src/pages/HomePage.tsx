@@ -5,7 +5,7 @@ import TabBar from '../components/TabBar'
 import UFIRow from '../components/UFIRow'
 import { asset } from '../utils/asset'
 
-interface FeedItem {
+export interface FeedItem {
   id: string
   gameImage: string
   title: string
@@ -19,7 +19,7 @@ interface FeedItem {
   iframeUrl?: string
 }
 
-const feedItems: FeedItem[] = [
+export const feedItems: FeedItem[] = [
   {
     id: '1',
     gameImage: asset('/game-card.jpg'),
@@ -93,7 +93,7 @@ const feedItems: FeedItem[] = [
   },
 ]
 
-const gridImages = [
+export const gridImages = [
   { src: asset('/grid-1.jpg'), hasAvatar: true },
   { src: asset('/grid-3.jpg'), hasAvatar: true },
   { src: asset('/grid-4.jpg'), hasAvatar: true },
@@ -117,9 +117,14 @@ interface HomePageProps {
   expandedId: string | null
   onExpand: (id: string) => void
   onCollapse: () => void
+  onGridImageTap?: (imageSrc: string, contentTitle?: string, contentThumb?: string) => void
+  customFeedItems?: FeedItem[]
+  showBackAlways?: boolean
+  feedTitle?: string
+  feedThumbnail?: string
 }
 
-function TopNav({ visible }: { visible: boolean }) {
+function TopNav({ visible, title, thumbnail }: { visible: boolean; title?: string; thumbnail?: string }) {
   const [activeTab, setActiveTab] = useState<'Feed' | 'Friends'>('Feed')
 
   return (
@@ -131,32 +136,41 @@ function TopNav({ visible }: { visible: boolean }) {
         pointerEvents: visible ? 'auto' : 'none',
       }}
     >
-      <div className="flex items-center gap-2">
-        <button
-          onClick={() => setActiveTab('Feed')}
-          className={`text-[16px] font-bold transition-opacity duration-200 ${
-            activeTab === 'Feed' ? 'text-white opacity-100' : 'text-white opacity-50'
-          }`}
-        >
-          Feed
-        </button>
-        <button
-          onClick={() => setActiveTab('Friends')}
-          className={`text-[16px] font-bold transition-opacity duration-200 flex items-center gap-1 ${
-            activeTab === 'Friends' ? 'text-white opacity-100' : 'text-white opacity-50'
-          }`}
-        >
-          Friends
-          <div className="flex -space-x-1">
-            <div className="w-[15px] h-[15px] rounded-full overflow-hidden border border-black">
-              <img src={asset('/avatar-ninja.jpg')} alt="" className="w-full h-full object-cover" />
+      {title ? (
+        <div className="flex items-center gap-2">
+          {thumbnail && (
+            <img src={thumbnail} alt="" className="w-7 h-7 rounded-lg object-cover border-2 border-white" />
+          )}
+          <span className="text-[16px] font-bold text-white">{title}</span>
+        </div>
+      ) : (
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setActiveTab('Feed')}
+            className={`text-[16px] font-bold transition-opacity duration-200 ${
+              activeTab === 'Feed' ? 'text-white opacity-100' : 'text-white opacity-50'
+            }`}
+          >
+            Feed
+          </button>
+          <button
+            onClick={() => setActiveTab('Friends')}
+            className={`text-[16px] font-bold transition-opacity duration-200 flex items-center gap-1 ${
+              activeTab === 'Friends' ? 'text-white opacity-100' : 'text-white opacity-50'
+            }`}
+          >
+            Friends
+            <div className="flex -space-x-1">
+              <div className="w-[15px] h-[15px] rounded-full overflow-hidden border border-black">
+                <img src={asset('/avatar-ninja.jpg')} alt="" className="w-full h-full object-cover" />
+              </div>
+              <div className="w-[15px] h-[15px] rounded-full overflow-hidden border border-black">
+                <img src={asset('/avatar-creator-1.jpg')} alt="" className="w-full h-full object-cover" />
+              </div>
             </div>
-            <div className="w-[15px] h-[15px] rounded-full overflow-hidden border border-black">
-              <img src={asset('/avatar-creator-1.jpg')} alt="" className="w-full h-full object-cover" />
-            </div>
-          </div>
-        </button>
-      </div>
+          </button>
+        </div>
+      )}
     </div>
   )
 }
@@ -177,7 +191,7 @@ function BackButton({ visible, onClick }: { visible: boolean; onClick: () => voi
   )
 }
 
-function MediaGrid() {
+function MediaGrid({ onImageTap }: { onImageTap?: (imageSrc: string) => void }) {
   const rows = []
   for (let i = 0; i < gridImages.length; i += 3) {
     rows.push(gridImages.slice(i, i + 3))
@@ -187,7 +201,11 @@ function MediaGrid() {
       {rows.map((row, rowIdx) => (
         <div key={rowIdx} className="flex gap-[1.5px]">
           {row.map((item, colIdx) => (
-            <div key={colIdx} className="relative flex-1 aspect-[130/229] overflow-hidden">
+            <div
+              key={colIdx}
+              className="relative flex-1 aspect-[130/229] overflow-hidden cursor-pointer active:opacity-80"
+              onClick={() => onImageTap?.(item.src)}
+            >
               <img src={item.src} alt="" className="w-full h-full object-cover" />
               {item.hasAvatar && (
                 <div className="absolute bottom-[5px] left-[6px] w-[18px] h-[18px] rounded-full overflow-hidden">
@@ -202,7 +220,8 @@ function MediaGrid() {
   )
 }
 
-export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageProps) {
+export default function HomePage({ expandedId, onExpand, onCollapse, onGridImageTap, customFeedItems, showBackAlways, feedTitle, feedThumbnail }: HomePageProps) {
+  const activeFeed = customFeedItems || feedItems
   const [currentIndex, setCurrentIndex] = useState(0)
   const [dragOffset, setDragOffset] = useState(0)
   const [isTransitioning, setIsTransitioning] = useState(false)
@@ -211,16 +230,17 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
   const touchStartTime = useRef(0)
   const isDragging = useRef(false)
   const scrollRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const isExpanded = expandedId !== null
 
   const goToIndex = useCallback((index: number) => {
-    const clamped = Math.max(0, Math.min(feedItems.length - 1, index))
+    const clamped = Math.max(0, Math.min(activeFeed.length - 1, index))
     setIsTransitioning(true)
     setDragOffset(0)
     setCurrentIndex(clamped)
     setTimeout(() => setIsTransitioning(false), 500)
-  }, [])
+  }, [activeFeed.length])
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (isTransitioning || isExpanded) return
@@ -234,10 +254,10 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
     if (!isDragging.current || isExpanded) return
     const deltaY = e.touches[0].clientY - touchStartY.current
     const atTop = currentIndex === 0 && deltaY > 0
-    const atBottom = currentIndex === feedItems.length - 1 && deltaY < 0
+    const atBottom = currentIndex === activeFeed.length - 1 && deltaY < 0
     const resistance = (atTop || atBottom) ? 0.2 : 1
     setDragOffset(deltaY * resistance)
-  }, [currentIndex, isExpanded])
+  }, [currentIndex, isExpanded, activeFeed.length])
 
   const handleTouchEnd = useCallback(() => {
     if (!isDragging.current || isExpanded) return
@@ -265,7 +285,7 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
         else goToIndex(currentIndex - 1)
       }
     }
-    const container = document.getElementById('reel-container')
+    const container = containerRef.current
     container?.addEventListener('wheel', handleWheel, { passive: false })
     return () => container?.removeEventListener('wheel', handleWheel)
   }, [currentIndex, isTransitioning, goToIndex, isExpanded])
@@ -280,7 +300,7 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
 
   return (
     <div
-      id="reel-container"
+      ref={containerRef}
       className="w-[393px] h-[852px] bg-black text-white overflow-hidden rounded-[50px] relative select-none"
       style={{ touchAction: isExpanded ? 'auto' : 'none' }}
       onTouchStart={handleTouchStart}
@@ -293,10 +313,10 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
       </div>
 
       {/* Top Nav (feed mode) */}
-      <TopNav visible={!isExpanded} />
+      <TopNav visible={!isExpanded} title={showBackAlways ? feedTitle : undefined} thumbnail={showBackAlways ? feedThumbnail : undefined} />
 
-      {/* Back Button (detail mode) */}
-      <BackButton visible={isExpanded} onClick={onCollapse} />
+      {/* Back Button (detail mode or pushed layer) */}
+      <BackButton visible={isExpanded || !!showBackAlways} onClick={onCollapse} />
 
       {/* Scrollable wrapper for detail mode */}
       <div
@@ -319,7 +339,7 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
               : isDragging.current ? 'none' : 'transform 0.1s ease-out',
           }}
         >
-          {feedItems.map((item, index) => {
+          {activeFeed.map((item, index) => {
             const isCurrentCard = index === currentIndex
             const isThisExpanded = isExpanded && isCurrentCard
 
@@ -498,7 +518,7 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
                   </div>
 
                   {/* Media Grid */}
-                  <MediaGrid />
+                  <MediaGrid onImageTap={(src) => onGridImageTap?.(src, item.title, item.gameThumb)} />
                 </div>
               </div>
             )

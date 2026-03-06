@@ -1,14 +1,16 @@
+import { asset } from '../utils/asset'
+
 interface TabBarProps {
   onTabClick?: (tab: string) => void
 }
 
 export default function TabBar({ onTabClick }: TabBarProps) {
   const tabs = [
-    { icon: '/icon-home.svg', label: 'Home', active: true },
-    { icon: '/icon-search.svg', label: 'Search', active: false },
-    { icon: '/icon-create.svg', label: 'Create', active: false },
-    { icon: '/icon-notifs.svg', label: 'Notifs', active: false },
-    { icon: '/icon-profile.svg', label: 'Profile', active: false },
+    { icon: asset('/icon-home.svg'), label: 'Home', active: true },
+    { icon: asset('/icon-search.svg'), label: 'Search', active: false },
+    { icon: asset('/icon-create.svg'), label: 'Create', active: false },
+    { icon: asset('/icon-notifs.svg'), label: 'Notifs', active: false },
+    { icon: asset('/icon-profile.svg'), label: 'Profile', active: false },
   ]
 
   return (

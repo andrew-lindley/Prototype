@@ -3,20 +3,21 @@ import { ChevronLeft } from 'lucide-react'
 import StatusBar from '../components/StatusBar'
 import TabBar from '../components/TabBar'
 import UFIRow from '../components/UFIRow'
+import { asset } from '../utils/asset'
 
 const gridImages = [
-  { src: '/grid-1.jpg', hasAvatar: true },
-  { src: '/grid-3.jpg', hasAvatar: true },
-  { src: '/grid-4.jpg', hasAvatar: true },
-  { src: '/grid-5.jpg', hasAvatar: false },
-  { src: '/grid-6.jpg', hasAvatar: true },
-  { src: '/grid-9.jpg', hasAvatar: true },
-  { src: '/grid-7.jpg', hasAvatar: false },
-  { src: '/grid-8.jpg', hasAvatar: false },
-  { src: '/grid-10.jpg', hasAvatar: false },
-  { src: '/grid-2.jpg', hasAvatar: false },
-  { src: '/grid-11.jpg', hasAvatar: false },
-  { src: '/grid-12.jpg', hasAvatar: false },
+  { src: asset('/grid-1.jpg'), hasAvatar: true },
+  { src: asset('/grid-3.jpg'), hasAvatar: true },
+  { src: asset('/grid-4.jpg'), hasAvatar: true },
+  { src: asset('/grid-5.jpg'), hasAvatar: false },
+  { src: asset('/grid-6.jpg'), hasAvatar: true },
+  { src: asset('/grid-9.jpg'), hasAvatar: true },
+  { src: asset('/grid-7.jpg'), hasAvatar: false },
+  { src: asset('/grid-8.jpg'), hasAvatar: false },
+  { src: asset('/grid-10.jpg'), hasAvatar: false },
+  { src: asset('/grid-2.jpg'), hasAvatar: false },
+  { src: asset('/grid-11.jpg'), hasAvatar: false },
+  { src: asset('/grid-12.jpg'), hasAvatar: false },
 ]
 
 function GameCard() {
@@ -24,7 +25,7 @@ function GameCard() {
     <div className="flex justify-center px-[60px]">
       <div className="w-[250px] h-[444px] rounded-3xl overflow-hidden border border-white/10">
         <img
-          src="/game-card.jpg"
+          src={asset('/game-card.jpg')}
           alt="Skate Run game preview"
           className="w-full h-full object-cover"
         />
@@ -38,10 +39,10 @@ function PostInfo() {
     <div className="flex items-center gap-3 h-[52px] px-4 py-2">
       <div className="relative w-9 h-9 shrink-0">
         <div className="w-9 h-9 rounded-full overflow-hidden">
-          <img src="/avatar-overlay.jpg" alt="MabelSyrup" className="w-full h-full object-cover" />
+          <img src={asset('/avatar-overlay.jpg')} alt="MabelSyrup" className="w-full h-full object-cover" />
         </div>
         <div className="absolute -bottom-0.5 -right-0.5 w-[18px] h-[18px] bg-white rounded-full border-2 border-black flex items-center justify-center">
-          <img src="/icon-plus.svg" alt="Follow" className="w-3 h-3" />
+          <img src={asset('/icon-plus.svg')} alt="Follow" className="w-3 h-3" />
         </div>
       </div>
       <div className="flex flex-col gap-0.5 min-w-0">
@@ -72,10 +73,10 @@ function RemixesHeader() {
       <div className="flex items-center">
         <div className="flex -space-x-1.5">
           <div className="w-5 h-5 rounded-full overflow-hidden border border-black z-10">
-            <img src="/avatar-ninja.jpg" alt="" className="w-full h-full object-cover" />
+            <img src={asset('/avatar-ninja.jpg')} alt="" className="w-full h-full object-cover" />
           </div>
           <div className="w-5 h-5 rounded-full overflow-hidden border border-black">
-            <img src="/avatar-ninja.jpg" alt="" className="w-full h-full object-cover" />
+            <img src={asset('/avatar-ninja.jpg')} alt="" className="w-full h-full object-cover" />
           </div>
         </div>
         <span className="text-[#f2f2f2] text-[11px] leading-[13px] ml-1">
@@ -105,7 +106,7 @@ function MediaGrid() {
               />
               {item.hasAvatar && (
                 <div className="absolute bottom-[5px] left-[6px] w-[18px] h-[18px] rounded-full overflow-hidden">
-                  <img src="/avatar-ninja.jpg" alt="" className="w-full h-full object-cover" />
+                  <img src={asset('/avatar-ninja.jpg')} alt="" className="w-full h-full object-cover" />
                 </div>
               )}
             </div>

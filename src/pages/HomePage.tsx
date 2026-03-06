@@ -3,6 +3,7 @@ import { ChevronLeft } from 'lucide-react'
 import StatusBar from '../components/StatusBar'
 import TabBar from '../components/TabBar'
 import UFIRow from '../components/UFIRow'
+import { asset } from '../utils/asset'
 
 interface FeedItem {
   id: string
@@ -21,90 +22,90 @@ interface FeedItem {
 const feedItems: FeedItem[] = [
   {
     id: '1',
-    gameImage: '/game-card.jpg',
+    gameImage: asset('/game-card.jpg'),
     iframeUrl: 'https://andrew-lindley.github.io/survivorlite/',
     title: 'Skate Run',
     author: 'MabelSyrup',
-    authorAvatar: '/avatar-overlay.jpg',
-    gameThumb: '/game-thumb.jpg',
+    authorAvatar: asset('/avatar-overlay.jpg'),
+    gameThumb: asset('/game-thumb.jpg'),
     likes: '2M',
     comments: '65',
     remixes: '245',
     remixAvatars: [
-      { src: '/avatar-creator-1.jpg', badge: true },
-      { src: '/avatar-mabel.jpg', badge: true },
+      { src: asset('/avatar-creator-1.jpg'), badge: true },
+      { src: asset('/avatar-mabel.jpg'), badge: true },
     ],
   },
   {
     id: '2',
-    gameImage: '/grid-3.jpg',
+    gameImage: asset('/grid-3.jpg'),
     iframeUrl: 'https://andrew-lindley.github.io/petgame/',
     title: 'Neon Drift',
     author: 'PixelWizard',
-    authorAvatar: '/avatar-ninja.jpg',
-    gameThumb: '/grid-4.jpg',
+    authorAvatar: asset('/avatar-ninja.jpg'),
+    gameThumb: asset('/grid-4.jpg'),
     likes: '850K',
     comments: '120',
     remixes: '89',
-    remixAvatars: [{ src: '/avatar-ninja.jpg', badge: true }],
+    remixAvatars: [{ src: asset('/avatar-ninja.jpg'), badge: true }],
   },
   {
     id: '3',
-    gameImage: '/grid-7.jpg',
+    gameImage: asset('/grid-7.jpg'),
     title: 'Desert Quest',
     author: 'SunsetCoder',
-    authorAvatar: '/avatar-creator-1.jpg',
-    gameThumb: '/grid-8.jpg',
+    authorAvatar: asset('/avatar-creator-1.jpg'),
+    gameThumb: asset('/grid-8.jpg'),
     likes: '1.2M',
     comments: '340',
     remixes: '512',
     remixAvatars: [
-      { src: '/avatar-creator-1.jpg', badge: true },
-      { src: '/avatar-mabel.jpg', badge: true },
+      { src: asset('/avatar-creator-1.jpg'), badge: true },
+      { src: asset('/avatar-mabel.jpg'), badge: true },
     ],
   },
   {
     id: '4',
-    gameImage: '/grid-1.jpg',
+    gameImage: asset('/grid-1.jpg'),
     title: 'Cyber Garden',
     author: 'FloraBot',
-    authorAvatar: '/avatar-overlay.jpg',
-    gameThumb: '/grid-2.jpg',
+    authorAvatar: asset('/avatar-overlay.jpg'),
+    gameThumb: asset('/grid-2.jpg'),
     likes: '430K',
     comments: '88',
     remixes: '167',
-    remixAvatars: [{ src: '/avatar-mabel.jpg', badge: true }],
+    remixAvatars: [{ src: asset('/avatar-mabel.jpg'), badge: true }],
   },
   {
     id: '5',
-    gameImage: '/grid-9.jpg',
+    gameImage: asset('/grid-9.jpg'),
     title: 'Ocean Deep',
     author: 'AquaVerse',
-    authorAvatar: '/avatar-ninja.jpg',
-    gameThumb: '/grid-10.jpg',
+    authorAvatar: asset('/avatar-ninja.jpg'),
+    gameThumb: asset('/grid-10.jpg'),
     likes: '2.5M',
     comments: '512',
     remixes: '1.2K',
     remixAvatars: [
-      { src: '/avatar-creator-1.jpg', badge: true },
-      { src: '/avatar-ninja.jpg', badge: true },
+      { src: asset('/avatar-creator-1.jpg'), badge: true },
+      { src: asset('/avatar-ninja.jpg'), badge: true },
     ],
   },
 ]
 
 const gridImages = [
-  { src: '/grid-1.jpg', hasAvatar: true },
-  { src: '/grid-3.jpg', hasAvatar: true },
-  { src: '/grid-4.jpg', hasAvatar: true },
-  { src: '/grid-5.jpg', hasAvatar: false },
-  { src: '/grid-6.jpg', hasAvatar: true },
-  { src: '/grid-9.jpg', hasAvatar: true },
-  { src: '/grid-7.jpg', hasAvatar: false },
-  { src: '/grid-8.jpg', hasAvatar: false },
-  { src: '/grid-10.jpg', hasAvatar: false },
-  { src: '/grid-2.jpg', hasAvatar: false },
-  { src: '/grid-11.jpg', hasAvatar: false },
-  { src: '/grid-12.jpg', hasAvatar: false },
+  { src: asset('/grid-1.jpg'), hasAvatar: true },
+  { src: asset('/grid-3.jpg'), hasAvatar: true },
+  { src: asset('/grid-4.jpg'), hasAvatar: true },
+  { src: asset('/grid-5.jpg'), hasAvatar: false },
+  { src: asset('/grid-6.jpg'), hasAvatar: true },
+  { src: asset('/grid-9.jpg'), hasAvatar: true },
+  { src: asset('/grid-7.jpg'), hasAvatar: false },
+  { src: asset('/grid-8.jpg'), hasAvatar: false },
+  { src: asset('/grid-10.jpg'), hasAvatar: false },
+  { src: asset('/grid-2.jpg'), hasAvatar: false },
+  { src: asset('/grid-11.jpg'), hasAvatar: false },
+  { src: asset('/grid-12.jpg'), hasAvatar: false },
 ]
 
 const CARD_HEIGHT = 852
@@ -148,10 +149,10 @@ function TopNav({ visible }: { visible: boolean }) {
           Friends
           <div className="flex -space-x-1">
             <div className="w-[15px] h-[15px] rounded-full overflow-hidden border border-black">
-              <img src="/avatar-ninja.jpg" alt="" className="w-full h-full object-cover" />
+              <img src={asset('/avatar-ninja.jpg')} alt="" className="w-full h-full object-cover" />
             </div>
             <div className="w-[15px] h-[15px] rounded-full overflow-hidden border border-black">
-              <img src="/avatar-creator-1.jpg" alt="" className="w-full h-full object-cover" />
+              <img src={asset('/avatar-creator-1.jpg')} alt="" className="w-full h-full object-cover" />
             </div>
           </div>
         </button>
@@ -190,7 +191,7 @@ function MediaGrid() {
               <img src={item.src} alt="" className="w-full h-full object-cover" />
               {item.hasAvatar && (
                 <div className="absolute bottom-[5px] left-[6px] w-[18px] h-[18px] rounded-full overflow-hidden">
-                  <img src="/avatar-ninja.jpg" alt="" className="w-full h-full object-cover" />
+                  <img src={asset('/avatar-ninja.jpg')} alt="" className="w-full h-full object-cover" />
                 </div>
               )}
             </div>
@@ -383,7 +384,7 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
                         </div>
                         {avatar.badge && (
                           <div className="absolute -bottom-0.5 -right-0.5 w-[18px] h-[18px] bg-[#755be4] rounded-full flex items-center justify-center">
-                            <img src="/icon-remix-small.svg" alt="" className="w-[10px] h-[10px]" />
+                            <img src={asset('/icon-remix-small.svg')} alt="" className="w-[10px] h-[10px]" />
                           </div>
                         )}
                       </div>
@@ -419,7 +420,7 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
                       <img src={item.authorAvatar} alt={item.author} className="w-full h-full object-cover" />
                     </div>
                     <div className="absolute -bottom-0.5 -right-0.5 w-[18px] h-[18px] bg-white rounded-full border-2 border-black flex items-center justify-center">
-                      <img src="/icon-plus.svg" alt="Follow" className="w-3 h-3" />
+                      <img src={asset('/icon-plus.svg')} alt="Follow" className="w-3 h-3" />
                     </div>
                   </div>
                   <div className="flex flex-col gap-0.5 min-w-0 flex-1">
@@ -484,10 +485,10 @@ export default function HomePage({ expandedId, onExpand, onCollapse }: HomePageP
                     <div className="flex items-center">
                       <div className="flex -space-x-1.5">
                         <div className="w-5 h-5 rounded-full overflow-hidden border border-black z-10">
-                          <img src="/avatar-ninja.jpg" alt="" className="w-full h-full object-cover" />
+                          <img src={asset('/avatar-ninja.jpg')} alt="" className="w-full h-full object-cover" />
                         </div>
                         <div className="w-5 h-5 rounded-full overflow-hidden border border-black">
-                          <img src="/avatar-ninja.jpg" alt="" className="w-full h-full object-cover" />
+                          <img src={asset('/avatar-ninja.jpg')} alt="" className="w-full h-full object-cover" />
                         </div>
                       </div>
                       <span className="text-[#f2f2f2] text-[11px] leading-[13px] ml-1">

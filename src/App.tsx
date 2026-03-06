@@ -113,6 +113,10 @@ export default function App() {
     setStack((prev) => [...prev, newLayer])
   }, [])
 
+  const handleGoHome = useCallback(() => {
+    setStack([{ id: 'root', feed: null, expandedId: null }])
+  }, [])
+
   return (
     <div className="flex justify-center">
       <div className="relative w-[393px] h-[852px]">
@@ -137,6 +141,7 @@ export default function App() {
                 showBackAlways={i > 0}
                 feedTitle={layer.title}
                 feedThumbnail={layer.thumbnail}
+                onHomeClick={handleGoHome}
                 key={layer.id}
               />
             </div>

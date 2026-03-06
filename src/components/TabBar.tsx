@@ -2,9 +2,10 @@ import { asset } from '../utils/asset'
 
 interface TabBarProps {
   onTabClick?: (tab: string) => void
+  onHomeClick?: () => void
 }
 
-export default function TabBar({ onTabClick }: TabBarProps) {
+export default function TabBar({ onTabClick, onHomeClick }: TabBarProps) {
   const tabs = [
     { icon: asset('/icon-home.svg'), label: 'Home', active: true },
     { icon: asset('/icon-search.svg'), label: 'Search', active: false },
@@ -19,7 +20,13 @@ export default function TabBar({ onTabClick }: TabBarProps) {
         {tabs.map((tab) => (
           <button
             key={tab.label}
-            onClick={() => onTabClick?.(tab.label)}
+            onClick={() => {
+              if (tab.label === 'Home' && onHomeClick) {
+                onHomeClick()
+              } else {
+                onTabClick?.(tab.label)
+              }
+            }}
             className={`flex-1 flex items-center justify-center h-full rounded-full transition-colors ${
               tab.active ? 'bg-white/20' : ''
             }`}

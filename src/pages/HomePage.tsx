@@ -122,6 +122,7 @@ interface HomePageProps {
   showBackAlways?: boolean
   feedTitle?: string
   feedThumbnail?: string
+  onHomeClick?: () => void
 }
 
 function TopNav({ visible, title, thumbnail }: { visible: boolean; title?: string; thumbnail?: string }) {
@@ -220,7 +221,7 @@ function MediaGrid({ onImageTap }: { onImageTap?: (imageSrc: string) => void }) 
   )
 }
 
-export default function HomePage({ expandedId, onExpand, onCollapse, onGridImageTap, customFeedItems, showBackAlways, feedTitle, feedThumbnail }: HomePageProps) {
+export default function HomePage({ expandedId, onExpand, onCollapse, onGridImageTap, customFeedItems, showBackAlways, feedTitle, feedThumbnail, onHomeClick }: HomePageProps) {
   const activeFeed = customFeedItems || feedItems
   const [currentIndex, setCurrentIndex] = useState(0)
   const [dragOffset, setDragOffset] = useState(0)
@@ -528,7 +529,7 @@ export default function HomePage({ expandedId, onExpand, onCollapse, onGridImage
 
       {/* Tab Bar */}
       <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-auto">
-        <TabBar onTabClick={isExpanded ? onCollapse : undefined} />
+        <TabBar onTabClick={isExpanded ? onCollapse : undefined} onHomeClick={onHomeClick} />
       </div>
     </div>
   )
